@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Tableau de bord — Administration')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar-back}" th:with="activeMenu='dashboard'"></nav>
+
+<section class="page-hero">
+    <div class="container-fluid px-4">
+        <h1><i class="bi bi-speedometer2 me-2"></i>Tableau de bord</h1>
+        <p>Vue d'ensemble des demandes de transformation de visa</p>
+    </div>
+</section>
+
+<div class="container-fluid px-4 pb-5">
+    <!-- Stats -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4 col-lg">
+            <div class="stat-card total">
+                <div class="stat-icon"><i class="bi bi-folder2-open"></i></div>
+                <div class="stat-value" th:text="${totalDemandes}">0</div>
+                <div class="stat-label">Total demandes</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg">
+            <div class="stat-card soumise">
+                <div class="stat-icon"><i class="bi bi-inbox"></i></div>
+                <div class="stat-value" th:text="${soumises}">0</div>
+                <div class="stat-label">Soumises</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg">
+            <div class="stat-card en-cours">
+                <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+                <div class="stat-value" th:text="${enCours}">0</div>
+                <div class="stat-label">En cours</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg">
+            <div class="stat-card validee">
+                <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
+                <div class="stat-value" th:text="${validees}">0</div>
+                <div class="stat-label">Validées</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg">
+            <div class="stat-card rejetee">
+                <div class="stat-icon"><i class="bi bi-x-circle"></i></div>
+                <div class="stat-value" th:text="${rejetees}">0</div>
+                <div class="stat-label">Rejetées</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Demandes -->
+    <div class="card-modern">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-clock-history me-2"></i>Dernières demandes</span>
+            <a th:href="@{/demandes}" class="btn btn-sm btn-campus">
+                Voir tout <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div th:if="${#lists.isEmpty(dernieresDemandes)}" class="text-center py-5 text-muted">
+                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                Aucune demande pour le moment
+            </div>
+            <div th:unless="${#lists.isEmpty(dernieresDemandes)}" class="table-responsive">
+                <table class="table table-modern mb-0">
+                    <thead>
+                        <tr>
+                            <th>N° Demande</th>
+                            <th>Demandeur</th>
+                            <th>Nationalité</th>
+                            <th>Type visa</th>
+                            <th>Objectif</th>
+                            <th>Date</th>
+                            <th>Statut</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="d : ${dernieresDemandes}">
+                            <td class="fw-bold" th:text="${d.numeroDemande}"></td>
+                            <td th:text="${d.nom + ' ' + d.prenom}"></td>
+                            <td th:text="${d.nationalite}"></td>
+                            <td th:text="${d.typeVisa.libelle}"></td>
+                            <td th:text="${d.objectifDemande.libelle}"></td>
+                            <td th:text="${#temporals.format(d.dateCreation, 'dd/MM/yyyy')}"></td>
+                            <td>
+                                <span class="badge badge-statut" th:classappend="${d.statut.badgeClass}" th:text="${d.statut.libelle}"></span>
+                            </td>
+                            <td>
+                                <a th:href="@{/demandes/{id}(id=${d.id})}" class="btn btn-sm btn-outline-campus">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
