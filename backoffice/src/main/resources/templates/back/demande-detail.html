@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Détail demande — Administration')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar-back}" th:with="activeMenu='demandes'"></nav>
+
+<section class="page-hero">
+    <div class="container-fluid px-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1><i class="bi bi-file-earmark-text me-2"></i>Demande <span th:text="${demande.numeroDemande}"></span></h1>
+                <p class="mb-0">Soumise le <span th:text="${#temporals.format(demande.dateCreation, 'dd MMMM yyyy à HH:mm')}"></span></p>
+            </div>
+            <span class="badge badge-statut fs-6 px-4 py-2" th:classappend="${demande.statut.badgeClass}" th:text="${demande.statut.libelle}"></span>
+        </div>
+    </div>
+</section>
+
+<div class="container-fluid px-4 pb-5">
+    <!-- Success message -->
+    <div th:if="${success}" class="alert alert-success d-flex align-items-center mb-4" style="border-radius: 10px;">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <span th:text="${success}"></span>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <!-- État civil -->
+            <div class="card-modern mb-4">
+                <div class="card-header"><i class="bi bi-person-vcard me-2"></i>État civil</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="detail-group">
+                                <div class="detail-label">Nom</div>
+                                <div class="detail-value" th:text="${demande.nom}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-group">
+                                <div class="detail-label">Prénom</div>
+                                <div class="detail-value" th:text="${demande.prenom}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-group">
+                                <div class="detail-label">Nom de jeune fille</div>
+                                <div class="detail-value" th:text="${demande.nomJeuneFille ?: '—'}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-group">
+                                <div class="detail-label">Situation familiale</div>
+                                <div class="detail-value" th:text="${demande.situationFamiliale.libelle}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-group">
+                                <div class="detail-label">Nationalité</div>
+                                <div class="detail-value" th:text="${demande.nationalite}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-group">
+                                <div class="detail-label">Profession</div>
+                                <div class="detail-value" th:text="${demande.profession ?: '—'}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="detail-group">
+                                <div class="detail-label">Adresse à Madagascar</div>
+                                <div class="detail-value" th:text="${demande.adresseMadagascar}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-group">
+                                <div class="detail-label">Contact</div>
+                                <div class="detail-value" th:text="${demande.contact}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Passeport -->
+            <div class="card-modern mb-4">
+                <div class="card-header"><i class="bi bi-journal-bookmark me-2"></i>Passeport</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="detail-group">
+                                <div class="detail-label">Numéro</div>
+                                <div class="detail-value" th:text="${demande.passeportNumero}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-group">
+                                <div class="detail-label">Date de délivrance</div>
+                                <div class="detail-value" th:text="${#temporals.format(demande.passeportDateDelivrance, 'dd/MM/yyyy')}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="detail-group">
+                                <div class="detail-label">Date d'expiration</div>
+                                <div class="detail-value" th:text="${#temporals.format(demande.passeportDateExpiration, 'dd/MM/yyyy')}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visa transformable -->
+            <div class="card-modern mb-4">
+                <div class="card-header"><i class="bi bi-passport me-2"></i>Visa transformable</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <div class="detail-group">
+                                <div class="detail-label">Référence</div>
+                                <div class="detail-value" th:text="${demande.visaReference}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="detail-group">
+                                <div class="detail-label">Date d'entrée</div>
+                                <div class="detail-value" th:text="${#temporals.format(demande.visaDateEntree, 'dd/MM/yyyy')}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="detail-group">
+                                <div class="detail-label">Lieu d'entrée</div>
+                                <div class="detail-value" th:text="${demande.visaLieuEntree}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="detail-group">
+                                <div class="detail-label">Date d'expiration</div>
+                                <div class="detail-value" th:text="${#temporals.format(demande.visaDateExpiration, 'dd/MM/yyyy')}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Type de visa demandé -->
+            <div class="card-modern">
+                <div class="card-header"><i class="bi bi-card-checklist me-2"></i>Demande de transformation</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <div class="detail-label">Objectif</div>
+                                <div class="detail-value" th:text="${demande.objectifDemande.libelle}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="detail-group">
+                                <div class="detail-label">Type de visa souhaité</div>
+                                <div class="detail-value" th:text="${demande.typeVisa.libelle + ' (' + demande.typeVisa.code + ')'}"></div>
+                            </div>
+                        </div>
+                        <div class="col-12" th:if="${demande.informationsComplementaires}">
+                            <div class="detail-group">
+                                <div class="detail-label">Informations complémentaires</div>
+                                <div class="detail-value" th:text="${demande.informationsComplementaires}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar: Actions -->
+        <div class="col-lg-4">
+            <!-- Changer le statut -->
+            <div class="card-modern mb-4">
+                <div class="card-header"><i class="bi bi-gear me-2"></i>Changer le statut</div>
+                <div class="card-body">
+                    <form th:action="@{/demandes/{id}/statut(id=${demande.id})}" method="post">
+                        <div class="mb-3">
+                            <select name="statut" class="form-select">
+                                <option th:each="s : ${statuts}" th:value="${s.name()}" th:text="${s.libelle}"
+                                        th:selected="${s == demande.statut}"></option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-campus w-100">
+                            <i class="bi bi-check2 me-1"></i> Mettre à jour
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Marquer incomplète -->
+            <div class="card-modern mb-4">
+                <div class="card-header"><i class="bi bi-exclamation-triangle me-2"></i>Marquer incomplète</div>
+                <div class="card-body">
+                    <form th:action="@{/demandes/{id}/incomplete(id=${demande.id})}" method="post">
+                        <div class="mb-3">
+                            <textarea name="remarques" class="form-control" rows="3"
+                                      placeholder="Précisez les données manquantes..."
+                                      th:text="${demande.remarques}"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-accent w-100">
+                            <i class="bi bi-flag me-1"></i> Marquer incomplète
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Warning si incomplète -->
+            <div th:if="${demande.donneesIncompletes}" class="alert alert-danger d-flex align-items-start" style="border-radius: 10px;">
+                <i class="bi bi-exclamation-octagon-fill me-2 mt-1 fs-5"></i>
+                <div>
+                    <strong>Données incomplètes</strong><br>
+                    <small th:text="${demande.remarques}"></small>
+                </div>
+            </div>
+
+            <!-- Retour -->
+            <a th:href="@{/demandes}" class="btn btn-outline-secondary w-100">
+                <i class="bi bi-arrow-left me-1"></i> Retour à la liste
+            </a>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
