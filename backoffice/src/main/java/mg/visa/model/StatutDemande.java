@@ -5,7 +5,8 @@ public enum StatutDemande {
     EN_COURS("En cours de traitement", "bg-warning"),
     VALIDEE("Validée", "bg-success"),
     REJETEE("Rejetée", "bg-danger"),
-    INCOMPLETE("Incomplète", "bg-secondary");
+    INCOMPLETE("Incomplète", "bg-secondary"),
+    APPROUVEE("Approuvée", "bg-primary");
 
     private final String libelle;
     private final String badgeClass;

@@ -11,43 +11,60 @@ public class DemandeDao {
 
     public String insert(Demande d) throws SQLException {
         String numeroDemande = genererNumeroDemande();
+        boolean isDuplicataOuTransfert = "DUPLICATA_CARTE".equals(d.getObjectifDemande())
+                || "TRANSFERT_VISA".equals(d.getObjectifDemande());
+
+        String statut = isDuplicataOuTransfert ? "APPROUVEE" : "SOUMISE";
+        Long dossierId = null;
+
+        if (isDuplicataOuTransfert) {
+            dossierId = trouverOuCreerDossier(d);
+        }
+
         String sql = "INSERT INTO demande (numero_demande, date_creation, statut, " +
                 "nom, prenom, nom_jeune_fille, situation_familiale, nationalite, adresse_madagascar, profession, contact, " +
                 "passeport_numero, passeport_date_delivrance, passeport_date_expiration, " +
                 "visa_reference, visa_date_entree, visa_lieu_entree, visa_date_expiration, " +
-                "type_visa_id, informations_complementaires, objectif_demande, donnees_incompletes) " +
-                "VALUES (?, ?, 'SOUMISE', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false)";
+                "type_visa_id, informations_complementaires, objectif_demande, donnees_incompletes, dossier_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false, ?)";
 
         try (Connection conn = Db.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, numeroDemande);
             ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setString(3, d.getNom());
-            ps.setString(4, d.getPrenom());
-            ps.setString(5, d.getNomJeuneFille());
-            ps.setString(6, d.getSituationFamiliale());
-            ps.setString(7, d.getNationalite());
-            ps.setString(8, d.getAdresseMadagascar());
-            ps.setString(9, d.getProfession());
-            ps.setString(10, d.getContact());
-            ps.setString(11, d.getPasseportNumero());
-            ps.setDate(12, d.getPasseportDateDelivrance() != null ? Date.valueOf(d.getPasseportDateDelivrance()) : null);
-            ps.setDate(13, d.getPasseportDateExpiration() != null ? Date.valueOf(d.getPasseportDateExpiration()) : null);
-            ps.setString(14, d.getVisaReference());
-            ps.setDate(15, d.getVisaDateEntree() != null ? Date.valueOf(d.getVisaDateEntree()) : null);
-            ps.setString(16, d.getVisaLieuEntree());
-            ps.setDate(17, d.getVisaDateExpiration() != null ? Date.valueOf(d.getVisaDateExpiration()) : null);
-            ps.setLong(18, d.getTypeVisaId());
-            ps.setString(19, d.getInformationsComplementaires());
-            ps.setString(20, d.getObjectifDemande());
+            ps.setString(3, statut);
+            ps.setString(4, d.getNom());
+            ps.setString(5, d.getPrenom());
+            ps.setString(6, d.getNomJeuneFille());
+            ps.setString(7, d.getSituationFamiliale());
+            ps.setString(8, d.getNationalite());
+            ps.setString(9, d.getAdresseMadagascar());
+            ps.setString(10, d.getProfession());
+            ps.setString(11, d.getContact());
+            ps.setString(12, d.getPasseportNumero());
+            ps.setDate(13, d.getPasseportDateDelivrance() != null ? Date.valueOf(d.getPasseportDateDelivrance()) : null);
+            ps.setDate(14, d.getPasseportDateExpiration() != null ? Date.valueOf(d.getPasseportDateExpiration()) : null);
+            ps.setString(15, d.getVisaReference());
+            ps.setDate(16, d.getVisaDateEntree() != null ? Date.valueOf(d.getVisaDateEntree()) : null);
+            ps.setString(17, d.getVisaLieuEntree());
+            ps.setDate(18, d.getVisaDateExpiration() != null ? Date.valueOf(d.getVisaDateExpiration()) : null);
+            ps.setLong(19, d.getTypeVisaId());
+            ps.setString(20, d.getInformationsComplementaires());
+            ps.setString(21, d.getObjectifDemande());
+            if (dossierId != null) {
+                ps.setLong(22, dossierId);
+            } else {
+                ps.setNull(22, java.sql.Types.BIGINT);
+            }
             ps.executeUpdate();
         }
         return numeroDemande;
     }
 
     public Demande findByNumeroDemande(String numeroDemande) throws SQLException {
-        String sql = "SELECT d.*, tv.libelle as type_visa_libelle FROM demande d " +
+        String sql = "SELECT d.*, tv.libelle as type_visa_libelle, dos.numero_dossier FROM demande d " +
                 "LEFT JOIN type_visa tv ON d.type_visa_id = tv.id " +
+                "LEFT JOIN dossier dos ON d.dossier_id = dos.id " +
                 "WHERE d.numero_demande = ?";
         try (Connection conn = Db.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -93,7 +110,51 @@ public class DemandeDao {
         d.setObjectifDemande(rs.getString("objectif_demande"));
         d.setDonneesIncompletes(rs.getBoolean("donnees_incompletes"));
         d.setRemarques(rs.getString("remarques"));
+        long dosId = rs.getLong("dossier_id");
+        if (!rs.wasNull()) d.setDossierId(dosId);
+        try { d.setNumeroDossier(rs.getString("numero_dossier")); } catch (SQLException ignored) {}
         return d;
+    }
+
+    private Long trouverOuCreerDossier(Demande d) throws SQLException {
+        String selectSql = "SELECT id FROM dossier WHERE passeport_numero = ?";
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(selectSql)) {
+            ps.setString(1, d.getPasseportNumero());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getLong("id");
+            }
+        }
+
+        String numeroDossier = genererNumeroDossier();
+        String insertSql = "INSERT INTO dossier (numero_dossier, date_creation, passeport_numero, nom, prenom, nationalite, type_dossier) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id";
+        try (Connection conn = Db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(insertSql)) {
+            ps.setString(1, numeroDossier);
+            ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(3, d.getPasseportNumero());
+            ps.setString(4, d.getNom());
+            ps.setString(5, d.getPrenom());
+            ps.setString(6, d.getNationalite());
+            ps.setString(7, d.getObjectifDemande());
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getLong("id");
+            }
+        }
+    }
+
+    private String genererNumeroDossier() throws SQLException {
+        String prefix = "DOS-" + java.time.LocalDateTime.now().format(
+                java.time.format.DateTimeFormatter.ofPattern("yyyyMM"));
+        long count = 0;
+        try (Connection conn = Db.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM dossier")) {
+            if (rs.next()) count = rs.getLong(1);
+        }
+        return prefix + "-" + String.format("%04d", count + 1);
     }
 
     private String genererNumeroDemande() throws SQLException {

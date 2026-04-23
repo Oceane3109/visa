@@ -1,8 +1,10 @@
 package mg.visa.controller;
 
 import mg.visa.model.Demande;
+import mg.visa.model.Dossier;
 import mg.visa.model.StatutDemande;
 import mg.visa.service.DemandeService;
+import mg.visa.service.DossierService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,11 @@ import java.util.Optional;
 public class BackOfficeController {
 
     private final DemandeService demandeService;
+    private final DossierService dossierService;
 
-    public BackOfficeController(DemandeService demandeService) {
+    public BackOfficeController(DemandeService demandeService, DossierService dossierService) {
         this.demandeService = demandeService;
+        this.dossierService = dossierService;
     }
 
     @GetMapping("")
@@ -28,6 +32,8 @@ public class BackOfficeController {
         model.addAttribute("validees", demandeService.compterParStatut(StatutDemande.VALIDEE));
         model.addAttribute("rejetees", demandeService.compterParStatut(StatutDemande.REJETEE));
         model.addAttribute("incompletes", demandeService.compterParStatut(StatutDemande.INCOMPLETE));
+        model.addAttribute("approuvees", demandeService.compterParStatut(StatutDemande.APPROUVEE));
+        model.addAttribute("totalDossiers", dossierService.compterTotal());
         model.addAttribute("dernieresDemandes", demandeService.listerToutesDemandes());
         return "back/dashboard";
     }
@@ -71,5 +77,21 @@ public class BackOfficeController {
         demandeService.marquerIncomplete(id, remarques);
         redirectAttributes.addFlashAttribute("success", "Demande marquée comme incomplète");
         return "redirect:/demandes/" + id;
+    }
+
+    @GetMapping("/dossiers")
+    public String listerDossiers(Model model) {
+        model.addAttribute("dossiers", dossierService.listerTousDossiers());
+        return "back/dossiers";
+    }
+
+    @GetMapping("/dossiers/{id}")
+    public String detailDossier(@PathVariable Long id, Model model) {
+        Optional<Dossier> dossier = dossierService.trouverParId(id);
+        if (dossier.isEmpty()) {
+            return "redirect:/dossiers";
+        }
+        model.addAttribute("dossier", dossier.get());
+        return "back/dossier-detail";
     }
 }
