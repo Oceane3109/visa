@@ -50,14 +50,21 @@
             </div>
         </div>
         <div class="col-md-4 col-lg">
-            <div class="stat-card" style="border-left: 4px solid #0d6efd;">
+            <div class="stat-card incomplete">
+                <div class="stat-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                <div class="stat-value" th:text="${incompletes}">0</div>
+                <div class="stat-label">Incomplètes</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg">
+            <div class="stat-card approuvee">
                 <div class="stat-icon"><i class="bi bi-hand-thumbs-up"></i></div>
                 <div class="stat-value" th:text="${approuvees}">0</div>
                 <div class="stat-label">Approuvées</div>
             </div>
         </div>
         <div class="col-md-4 col-lg">
-            <div class="stat-card" style="border-left: 4px solid #6f42c1;">
+            <div class="stat-card dossier">
                 <div class="stat-icon"><i class="bi bi-folder-fill"></i></div>
                 <div class="stat-value" th:text="${totalDossiers}">0</div>
                 <div class="stat-label">Dossiers</div>
