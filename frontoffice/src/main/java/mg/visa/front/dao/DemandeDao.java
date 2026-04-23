@@ -127,8 +127,8 @@ public class DemandeDao {
         }
 
         String numeroDossier = genererNumeroDossier();
-        String insertSql = "INSERT INTO dossier (numero_dossier, date_creation, passeport_numero, nom, prenom, nationalite, type_dossier) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id";
+        String insertSql = "INSERT INTO dossier (numero_dossier, date_creation, passeport_numero, nom, prenom, nationalite) " +
+                "VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
         try (Connection conn = Db.getConnection();
              PreparedStatement ps = conn.prepareStatement(insertSql)) {
             ps.setString(1, numeroDossier);
@@ -137,7 +137,6 @@ public class DemandeDao {
             ps.setString(4, d.getNom());
             ps.setString(5, d.getPrenom());
             ps.setString(6, d.getNationalite());
-            ps.setString(7, d.getObjectifDemande());
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
                 return rs.getLong("id");

@@ -7,10 +7,10 @@ SELECT setval(pg_get_serial_sequence('dossier', 'id'), 1, false);
 SELECT setval(pg_get_serial_sequence('demande', 'id'), 1, false);
 
 -- Dossiers
-INSERT INTO dossier (id, numero_dossier, date_creation, passeport_numero, nom, prenom, nationalite, type_dossier) VALUES
-(1, 'DOS-202604-0001', '2026-04-10 08:30:00', 'MG-2024-00451', 'RAKOTOMALALA', 'Andrianaivo', 'Malgache', 'DUPLICATA_CARTE'),
-(2, 'DOS-202604-0002', '2026-04-12 10:15:00', 'MG-2023-01287', 'RASOAMANANA', 'Volatiana', 'Malgache', 'TRANSFERT_VISA'),
-(3, 'DOS-202604-0003', '2026-04-18 14:00:00', 'MG-2022-00893', 'ANDRIANTSITOHAINA', 'Fenosoa', 'Malgache', 'DUPLICATA_CARTE');
+INSERT INTO dossier (id, numero_dossier, date_creation, passeport_numero, nom, prenom, nationalite) VALUES
+(1, 'DOS-202604-0001', '2026-04-10 08:30:00', 'MG-2024-00451', 'RAKOTOMALALA', 'Andrianaivo', 'Malgache'),
+(2, 'DOS-202604-0002', '2026-04-12 10:15:00', 'MG-2023-01287', 'RASOAMANANA', 'Volatiana', 'Malgache'),
+(3, 'DOS-202604-0003', '2026-04-18 14:00:00', 'MG-2022-00893', 'ANDRIANTSITOHAINA', 'Fenosoa', 'Malgache');
 
 SELECT setval(pg_get_serial_sequence('dossier', 'id'), 3);
 

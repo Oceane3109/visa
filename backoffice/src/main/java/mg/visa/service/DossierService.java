@@ -36,7 +36,6 @@ public class DossierService {
         dossier.setNom(demande.getNom());
         dossier.setPrenom(demande.getPrenom());
         dossier.setNationalite(demande.getNationalite());
-        dossier.setTypeDossier(demande.getObjectifDemande());
         return dossierRepository.save(dossier);
     }
 

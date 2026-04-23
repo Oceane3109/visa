@@ -36,9 +36,9 @@
                         <dt class="col-sm-5">Nationalité</dt>
                         <dd class="col-sm-7" th:text="${dossier.nationalite}"></dd>
 
-                        <dt class="col-sm-5">Type</dt>
+                        <dt class="col-sm-5">Types</dt>
                         <dd class="col-sm-7">
-                            <span class="badge bg-primary" th:text="${dossier.typeDossier.libelle}"></span>
+                            <span th:each="dem : ${dossier.demandes}" class="badge bg-primary me-1" th:text="${dem.objectifDemande.libelle}"></span>
                         </dd>
                     </dl>
                 </div>

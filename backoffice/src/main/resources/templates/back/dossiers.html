@@ -27,7 +27,7 @@
                             <th>Nom</th>
                             <th>Prénom</th>
                             <th>Nationalité</th>
-                            <th>Type</th>
+                            <th>Types demandes</th>
                             <th>Date création</th>
                             <th>Demandes liées</th>
                             <th></th>
@@ -41,7 +41,7 @@
                             <td th:text="${dos.prenom}"></td>
                             <td th:text="${dos.nationalite}"></td>
                             <td>
-                                <span class="badge bg-primary" th:text="${dos.typeDossier.libelle}"></span>
+                                <span th:each="dem : ${dos.demandes}" class="badge bg-primary me-1" th:text="${dem.objectifDemande.libelle}"></span>
                             </td>
                             <td th:text="${#temporals.format(dos.dateCreation, 'dd/MM/yyyy HH:mm')}"></td>
                             <td>

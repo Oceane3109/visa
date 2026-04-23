@@ -26,9 +26,6 @@ public class Dossier {
 
     private String nationalite;
 
-    @Enumerated(EnumType.STRING)
-    private ObjectifDemande typeDossier;
-
     @OneToMany(mappedBy = "dossier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Demande> demandes = new ArrayList<>();
 
@@ -58,9 +55,6 @@ public class Dossier {
 
     public String getNationalite() { return nationalite; }
     public void setNationalite(String nationalite) { this.nationalite = nationalite; }
-
-    public ObjectifDemande getTypeDossier() { return typeDossier; }
-    public void setTypeDossier(ObjectifDemande typeDossier) { this.typeDossier = typeDossier; }
 
     public List<Demande> getDemandes() { return demandes; }
     public void setDemandes(List<Demande> demandes) { this.demandes = demandes; }
