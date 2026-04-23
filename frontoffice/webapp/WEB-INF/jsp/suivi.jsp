@@ -8,7 +8,7 @@
     <title>Suivi de demande — Visa Madagascar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 </head>
 <body>
@@ -33,27 +33,32 @@
     </div>
 </nav>
 
-<section class="page-hero">
-    <div class="container">
-        <h1><i class="bi bi-search me-2"></i>Suivi de demande</h1>
-        <p>Retrouvez l'&eacute;tat d'avancement de votre demande de transformation de visa</p>
+<section class="page-hero" style="text-align:center;">
+    <div class="container" style="position:relative;">
+        <div style="display:inline-flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:16px;background:rgba(255,255,255,0.08);margin-bottom:1rem;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);">
+            <i class="bi bi-search" style="font-size:1.5rem;"></i>
+        </div>
+        <h1>Suivi de demande</h1>
+        <p style="max-width:500px;margin:0 auto;">Retrouvez l'&eacute;tat d'avancement de votre demande de transformation de visa</p>
     </div>
 </section>
 
 <div class="container pb-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card-modern mb-4">
-                <div class="card-body p-4">
+        <div class="col-lg-8">
+            <!-- Search bar -->
+            <div class="card-modern mb-4" style="margin-top:-2rem;position:relative;z-index:10;">
+                <div class="card-body" style="padding:1.5rem;">
                     <form action="${pageContext.request.contextPath}/suivi" method="post">
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text bg-white border-end-0" style="border-radius: 8px 0 0 8px;">
-                                <i class="bi bi-hash text-primary"></i>
-                            </span>
-                            <input type="text" name="numeroDemande" class="form-control border-start-0"
-                                   placeholder="Entrez votre num&eacute;ro de demande (ex: VT-202604-0001)"
-                                   value="${numeroDemande}" required style="border-radius: 0;">
-                            <button class="btn btn-campus" type="submit" style="border-radius: 0 8px 8px 0;">
+                        <label style="font-weight:700;font-size:0.82rem;color:var(--slate-500);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:0.6rem;">
+                            <i class="bi bi-hash me-1"></i> Num&eacute;ro de demande
+                        </label>
+                        <div class="d-flex flex-column flex-sm-row gap-2">
+                            <input type="text" name="numeroDemande" class="form-control form-control-lg"
+                                   placeholder="Ex: VT-202604-0001"
+                                   value="${numeroDemande}" required
+                                   style="border-radius:12px;border:2px solid var(--slate-200);font-size:1rem;font-weight:600;padding:0.8rem 1rem;">
+                            <button class="btn btn-campus btn-lg flex-shrink-0" type="submit" style="border-radius:12px;white-space:nowrap;">
                                 <i class="bi bi-search me-1"></i> Rechercher
                             </button>
                         </div>
@@ -62,55 +67,61 @@
             </div>
 
             <c:if test="${not empty error}">
-                <div class="alert alert-warning d-flex align-items-center" style="border-radius: 10px;">
-                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
-                    <span>${error}</span>
+                <div class="card-modern mb-4" style="border-color:var(--amber-light);">
+                    <div class="card-body d-flex align-items-center gap-3" style="padding:1.25rem;">
+                        <div style="width:44px;height:44px;border-radius:12px;background:var(--amber-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="bi bi-exclamation-triangle-fill" style="color:var(--amber);font-size:1.1rem;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight:700;font-size:0.9rem;color:var(--slate-700);">Demande introuvable</div>
+                            <div style="font-size:0.82rem;color:var(--slate-500);">${error}</div>
+                        </div>
+                    </div>
                 </div>
             </c:if>
 
             <c:if test="${not empty demande}">
                 <div class="card-modern">
-                    <div class="card-header">
-                        <i class="bi bi-file-earmark-text"></i>
-                        Demande N&deg; ${demande.numeroDemande}
-                    </div>
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <span class="badge badge-statut fs-6 ${demande.statutBadge}">${demande.statutLibelle}</span>
+                    <div class="card-header d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
+                        <div>
+                            <i class="bi bi-file-earmark-text me-1"></i>
+                            <strong>Demande N&deg; ${demande.numeroDemande}</strong>
                         </div>
-
-                        <div class="row g-3">
-                            <div class="col-md-6">
+                        <span class="badge badge-statut ${demande.statutBadge}" style="font-size:0.78rem;">${demande.statutLibelle}</span>
+                    </div>
+                    <div class="card-body" style="padding:1.5rem;">
+                        <div class="row g-0">
+                            <div class="col-sm-6" style="padding:1rem;">
                                 <div class="detail-group">
                                     <div class="detail-label">Demandeur</div>
                                     <div class="detail-value">${demande.nom} ${demande.prenom}</div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-sm-6" style="padding:1rem;">
                                 <div class="detail-group">
                                     <div class="detail-label">Date de soumission</div>
                                     <div class="detail-value">${demande.dateCreation}</div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-sm-6" style="padding:1rem;">
                                 <div class="detail-group">
                                     <div class="detail-label">Type de visa demand&eacute;</div>
                                     <div class="detail-value">${demande.typeVisaLibelle}</div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-sm-6" style="padding:1rem;">
                                 <div class="detail-group">
                                     <div class="detail-label">Objectif</div>
                                     <div class="detail-value">${demande.objectifLibelle}</div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-sm-6" style="padding:1rem;">
                                 <div class="detail-group">
-                                    <div class="detail-label">R&eacute;f&eacute;rence visa transformable</div>
+                                    <div class="detail-label">R&eacute;f&eacute;rence visa</div>
                                     <div class="detail-value">${demande.visaReference}</div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-sm-6" style="padding:1rem;">
                                 <div class="detail-group">
                                     <div class="detail-label">N&deg; Passeport</div>
                                     <div class="detail-value">${demande.passeportNumero}</div>
@@ -119,21 +130,25 @@
                         </div>
 
                         <c:if test="${not empty demande.numeroDossier}">
-                            <div class="alert alert-primary mt-4 d-flex align-items-start" style="border-radius: 10px;">
-                                <i class="bi bi-folder-fill me-2 mt-1"></i>
+                            <div class="d-flex align-items-center gap-3 mt-3 p-3" style="background:var(--violet-light);border-radius:12px;">
+                                <div style="width:40px;height:40px;border-radius:10px;background:rgba(124,58,237,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <i class="bi bi-folder-fill" style="color:var(--violet);"></i>
+                                </div>
                                 <div>
-                                    <strong>Dossier li&eacute;</strong><br>
-                                    <span>N&deg; ${demande.numeroDossier}</span>
+                                    <div style="font-weight:700;font-size:0.85rem;color:var(--violet);">Dossier li&eacute;</div>
+                                    <div style="font-size:0.82rem;color:var(--slate-600);">N&deg; ${demande.numeroDossier}</div>
                                 </div>
                             </div>
                         </c:if>
 
                         <c:if test="${demande.donneesIncompletes}">
-                            <div class="alert alert-danger mt-4 d-flex align-items-start" style="border-radius: 10px;">
-                                <i class="bi bi-exclamation-octagon-fill me-2 mt-1"></i>
+                            <div class="d-flex align-items-start gap-3 mt-3 p-3" style="background:var(--rose-light);border-radius:12px;">
+                                <div style="width:40px;height:40px;border-radius:10px;background:rgba(225,29,72,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">
+                                    <i class="bi bi-exclamation-octagon-fill" style="color:var(--rose);"></i>
+                                </div>
                                 <div>
-                                    <strong>Donn&eacute;es incompl&egrave;tes</strong><br>
-                                    <span>${demande.remarques}</span>
+                                    <div style="font-weight:700;font-size:0.85rem;color:var(--rose);">Donn&eacute;es incompl&egrave;tes</div>
+                                    <div style="font-size:0.82rem;color:var(--slate-600);">${demande.remarques}</div>
                                 </div>
                             </div>
                         </c:if>

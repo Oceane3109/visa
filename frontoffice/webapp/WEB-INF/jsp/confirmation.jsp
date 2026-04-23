@@ -7,7 +7,7 @@
     <title>Confirmation — Visa Madagascar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 </head>
 <body>
@@ -32,34 +32,34 @@
     </div>
 </nav>
 
-<div class="container py-5">
+<div class="container" style="padding-top:4rem;padding-bottom:4rem;">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card-modern">
-                <div class="card-body confirmation-box">
-                    <div class="check-circle">
-                        <i class="bi bi-check-lg"></i>
+        <div class="col-lg-6 col-md-8">
+            <div class="card-modern" style="border:none;box-shadow:var(--shadow-xl);">
+                <div class="card-body" style="padding:3rem 2.5rem;text-align:center;">
+                    <div class="check-circle" style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--emerald-light),rgba(5,150,105,0.15));display:flex;align-items:center;justify-content:center;margin:0 auto 2rem;box-shadow:0 8px 30px rgba(5,150,105,0.15);">
+                        <i class="bi bi-check-lg" style="font-size:2.5rem;color:var(--emerald);"></i>
                     </div>
-                    <h2 class="fw-bold text-success mb-3">Demande soumise avec succ&egrave;s</h2>
-                    <p class="text-muted mb-4">Votre demande de transformation de visa a &eacute;t&eacute; enregistr&eacute;e.</p>
+                    <h2 style="font-weight:800;color:var(--primary);margin-bottom:0.5rem;font-size:1.6rem;letter-spacing:-0.03em;">Demande soumise !</h2>
+                    <p style="color:var(--slate-500);font-size:0.95rem;margin-bottom:2rem;">Votre demande de transformation de visa a &eacute;t&eacute; enregistr&eacute;e avec succ&egrave;s.</p>
 
                     <% if (request.getAttribute("numeroDemande") != null) { %>
-                    <div class="alert alert-info d-inline-block px-4 py-3 mb-4" style="border-radius:10px;">
-                        <small class="d-block text-muted mb-1">Votre num&eacute;ro de r&eacute;f&eacute;rence</small>
-                        <strong class="fs-4"><%= request.getAttribute("numeroDemande") %></strong>
+                    <div style="background:var(--slate-50);border:2px dashed var(--slate-200);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:inline-block;">
+                        <div style="font-size:0.72rem;font-weight:700;color:var(--slate-400);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:0.4rem;">Votre num&eacute;ro de r&eacute;f&eacute;rence</div>
+                        <div style="font-size:1.5rem;font-weight:900;color:var(--primary);letter-spacing:-0.02em;"><%= request.getAttribute("numeroDemande") %></div>
                     </div>
                     <% } %>
 
-                    <p class="text-muted small mb-4">
-                        <i class="bi bi-info-circle me-1"></i>
+                    <p style="color:var(--slate-400);font-size:0.82rem;margin-bottom:2rem;max-width:380px;margin-left:auto;margin-right:auto;">
+                        <i class="bi bi-shield-check me-1" style="color:var(--emerald);"></i>
                         Conservez ce num&eacute;ro pr&eacute;cieusement. Il vous permettra de suivre l'avancement de votre demande.
                     </p>
 
-                    <div class="d-flex justify-content-center gap-3">
-                        <a href="${pageContext.request.contextPath}/suivi" class="btn btn-campus">
+                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                        <a href="${pageContext.request.contextPath}/suivi" class="btn btn-campus" style="border-radius:12px;">
                             <i class="bi bi-search me-1"></i> Suivre ma demande
                         </a>
-                        <a href="${pageContext.request.contextPath}/nouvelle-demande" class="btn btn-outline-campus">
+                        <a href="${pageContext.request.contextPath}/nouvelle-demande" class="btn btn-outline-campus" style="border-radius:12px;">
                             <i class="bi bi-plus-circle me-1"></i> Nouvelle demande
                         </a>
                     </div>
