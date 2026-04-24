@@ -32,6 +32,9 @@ public class Demande {
     private String informationsComplementaires;
     private String objectifDemande;
 
+    private Long dossierId;
+    private String numeroDossier;
+
     private boolean donneesIncompletes;
     private String remarques;
 
@@ -81,6 +84,11 @@ public class Demande {
     public void setInformationsComplementaires(String informationsComplementaires) { this.informationsComplementaires = informationsComplementaires; }
     public String getObjectifDemande() { return objectifDemande; }
     public void setObjectifDemande(String objectifDemande) { this.objectifDemande = objectifDemande; }
+    public Long getDossierId() { return dossierId; }
+    public void setDossierId(Long dossierId) { this.dossierId = dossierId; }
+    public String getNumeroDossier() { return numeroDossier; }
+    public void setNumeroDossier(String numeroDossier) { this.numeroDossier = numeroDossier; }
+
     public boolean isDonneesIncompletes() { return donneesIncompletes; }
     public void setDonneesIncompletes(boolean donneesIncompletes) { this.donneesIncompletes = donneesIncompletes; }
     public String getRemarques() { return remarques; }
@@ -94,6 +102,7 @@ public class Demande {
             case "VALIDEE": return "Valid\u00e9e";
             case "REJETEE": return "Rejet\u00e9e";
             case "INCOMPLETE": return "Incompl\u00e8te";
+            case "APPROUVEE": return "Approuv\u00e9e";
             default: return statut;
         }
     }
@@ -106,6 +115,7 @@ public class Demande {
             case "VALIDEE": return "bg-success";
             case "REJETEE": return "bg-danger";
             case "INCOMPLETE": return "bg-secondary";
+            case "APPROUVEE": return "bg-primary";
             default: return "bg-secondary";
         }
     }

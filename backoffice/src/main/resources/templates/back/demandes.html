@@ -5,24 +5,35 @@
 <nav th:replace="~{fragments/layout :: navbar-back}" th:with="activeMenu='demandes'"></nav>
 
 <section class="page-hero">
-    <div class="container-fluid px-4">
-        <h1><i class="bi bi-folder2-open me-2"></i>Gestion des demandes</h1>
-        <p>Consultez et gérez toutes les demandes de transformation de visa</p>
+    <div class="container-fluid px-4 px-lg-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1><i class="bi bi-folder2-open me-2"></i>Gestion des demandes</h1>
+                <p>Consultez et g&eacute;rez toutes les demandes de transformation de visa</p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0" style="position:relative;">
+                <span class="badge bg-dark bg-opacity-25 px-3 py-2" style="font-size:0.85rem;border-radius:8px;" th:text="${#lists.size(demandes)} + ' demande(s)'"></span>
+            </div>
+        </div>
     </div>
 </section>
 
-<div class="container-fluid px-4 pb-5">
+<div class="container-fluid px-4 px-lg-5 pb-5">
     <!-- Filters -->
     <div class="card-modern mb-4">
-        <div class="card-body py-3">
+        <div class="card-body py-3 px-4">
             <div class="d-flex flex-wrap align-items-center gap-2">
-                <span class="fw-bold text-primary me-2"><i class="bi bi-funnel me-1"></i> Filtrer :</span>
+                <span class="me-2" style="font-weight:700;font-size:0.82rem;color:var(--slate-500);text-transform:uppercase;letter-spacing:0.5px;">
+                    <i class="bi bi-funnel me-1"></i> Filtrer
+                </span>
                 <a th:href="@{/demandes}" class="btn btn-sm"
-                   th:classappend="${filtreStatut == null} ? 'btn-campus' : 'btn-outline-secondary'">Toutes</a>
+                   th:classappend="${filtreStatut == null} ? 'btn-campus' : 'btn-outline-secondary'"
+                   style="border-radius:50px;font-size:0.78rem;padding:0.35rem 1rem;">Toutes</a>
                 <a th:each="s : ${statuts}" th:href="@{/demandes(statut=${s.name()})}"
                    class="btn btn-sm"
                    th:classappend="${#strings.equals(filtreStatut, s.name())} ? 'btn-campus' : 'btn-outline-secondary'"
-                   th:text="${s.libelle}"></a>
+                   th:text="${s.libelle}"
+                   style="border-radius:50px;font-size:0.78rem;padding:0.35rem 1rem;"></a>
             </div>
         </div>
     </div>
@@ -30,43 +41,49 @@
     <!-- Table -->
     <div class="card-modern">
         <div class="card-body p-0">
-            <div th:if="${#lists.isEmpty(demandes)}" class="text-center py-5 text-muted">
-                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                Aucune demande trouvée
+            <div th:if="${#lists.isEmpty(demandes)}" class="text-center py-5">
+                <div style="width:80px;height:80px;border-radius:50%;background:var(--slate-100);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+                    <i class="bi bi-inbox" style="font-size:2rem;color:var(--slate-400);"></i>
+                </div>
+                <h6 style="color:var(--slate-500);font-weight:700;">Aucune demande trouv&eacute;e</h6>
+                <p style="color:var(--slate-400);font-size:0.85rem;margin-bottom:0;">Modifiez vos filtres pour voir plus de r&eacute;sultats</p>
             </div>
             <div th:unless="${#lists.isEmpty(demandes)}" class="table-responsive">
                 <table class="table table-modern mb-0">
                     <thead>
                         <tr>
-                            <th>N° Demande</th>
+                            <th>N&deg; Demande</th>
                             <th>Demandeur</th>
-                            <th>Nationalité</th>
-                            <th>Passeport</th>
-                            <th>Réf. Visa</th>
-                            <th>Type visa</th>
+                            <th class="d-none d-lg-table-cell">Passeport</th>
+                            <th class="d-none d-xl-table-cell">R&eacute;f. Visa</th>
+                            <th class="d-none d-xl-table-cell">Type visa</th>
                             <th>Objectif</th>
-                            <th>Date</th>
+                            <th class="d-none d-md-table-cell">Date</th>
                             <th>Statut</th>
-                            <th>Actions</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="d : ${demandes}">
-                            <td class="fw-bold" th:text="${d.numeroDemande}"></td>
-                            <td th:text="${d.nom + ' ' + d.prenom}"></td>
-                            <td th:text="${d.nationalite}"></td>
-                            <td th:text="${d.passeportNumero}"></td>
-                            <td th:text="${d.visaReference}"></td>
-                            <td th:text="${d.typeVisa.libelle}"></td>
-                            <td><small th:text="${d.objectifDemande.libelle}"></small></td>
-                            <td th:text="${#temporals.format(d.dateCreation, 'dd/MM/yyyy HH:mm')}"></td>
                             <td>
-                                <span class="badge badge-statut" th:classappend="${d.statut.badgeClass}" th:text="${d.statut.libelle}"></span>
-                                <i th:if="${d.donneesIncompletes}" class="bi bi-exclamation-triangle-fill text-warning ms-1" title="Données incomplètes"></i>
+                                <span class="fw-bold" th:text="${d.numeroDemande}" style="font-size:0.82rem;"></span>
                             </td>
                             <td>
-                                <a th:href="@{/demandes/{id}(id=${d.id})}" class="btn btn-sm btn-outline-campus">
-                                    <i class="bi bi-eye me-1"></i> Détail
+                                <div class="fw-bold" th:text="${d.nom + ' ' + d.prenom}" style="font-size:0.88rem;"></div>
+                                <div class="d-lg-none" th:text="${d.nationalite}" style="font-size:0.78rem;color:var(--slate-400);"></div>
+                            </td>
+                            <td class="d-none d-lg-table-cell" style="font-size:0.85rem;" th:text="${d.passeportNumero}"></td>
+                            <td class="d-none d-xl-table-cell" style="font-size:0.85rem;" th:text="${d.visaReference}"></td>
+                            <td class="d-none d-xl-table-cell" style="font-size:0.85rem;" th:text="${d.typeVisa.libelle}"></td>
+                            <td><span class="badge bg-secondary" th:text="${d.objectifDemande.libelle}" style="font-size:0.68rem;"></span></td>
+                            <td class="d-none d-md-table-cell" style="font-size:0.82rem;color:var(--slate-500);" th:text="${#temporals.format(d.dateCreation, 'dd/MM/yyyy HH:mm')}"></td>
+                            <td>
+                                <span class="badge badge-statut" th:classappend="${d.statut.badgeClass}" th:text="${d.statut.libelle}"></span>
+                                <i th:if="${d.donneesIncompletes}" class="bi bi-exclamation-triangle-fill ms-1" style="color:var(--amber);font-size:0.75rem;" title="Donn&eacute;es incompl&egrave;tes"></i>
+                            </td>
+                            <td>
+                                <a th:href="@{/demandes/{id}(id=${d.id})}" class="btn btn-sm btn-outline-campus" style="padding:0.35rem 0.65rem;">
+                                    <i class="bi bi-eye"></i>
                                 </a>
                             </td>
                         </tr>

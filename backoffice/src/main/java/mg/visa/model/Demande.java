@@ -82,6 +82,11 @@ public class Demande {
     @NotNull(message = "L'objectif de la demande est obligatoire")
     private ObjectifDemande objectifDemande;
 
+    // --- Dossier lié ---
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dossier_id")
+    private Dossier dossier;
+
     // --- Données incomplètes ---
     private boolean donneesIncompletes;
 
@@ -162,6 +167,9 @@ public class Demande {
 
     public ObjectifDemande getObjectifDemande() { return objectifDemande; }
     public void setObjectifDemande(ObjectifDemande objectifDemande) { this.objectifDemande = objectifDemande; }
+
+    public Dossier getDossier() { return dossier; }
+    public void setDossier(Dossier dossier) { this.dossier = dossier; }
 
     public boolean isDonneesIncompletes() { return donneesIncompletes; }
     public void setDonneesIncompletes(boolean donneesIncompletes) { this.donneesIncompletes = donneesIncompletes; }

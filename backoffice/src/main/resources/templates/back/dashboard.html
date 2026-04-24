@@ -5,92 +5,170 @@
 <nav th:replace="~{fragments/layout :: navbar-back}" th:with="activeMenu='dashboard'"></nav>
 
 <section class="page-hero">
-    <div class="container-fluid px-4">
-        <h1><i class="bi bi-speedometer2 me-2"></i>Tableau de bord</h1>
-        <p>Vue d'ensemble des demandes de transformation de visa</p>
+    <div class="container-fluid px-4 px-lg-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1><i class="bi bi-speedometer2 me-2"></i>Tableau de bord</h1>
+                <p>Vue d'ensemble des demandes de transformation de visa</p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0" style="position:relative;">
+                <a th:href="@{/demandes}" class="btn btn-outline-light btn-sm me-2" style="border-radius:8px;">
+                    <i class="bi bi-list-ul me-1"></i> Toutes les demandes
+                </a>
+                <a th:href="@{/dossiers}" class="btn btn-outline-light btn-sm" style="border-radius:8px;">
+                    <i class="bi bi-folder me-1"></i> Dossiers
+                </a>
+            </div>
+        </div>
     </div>
 </section>
 
-<div class="container-fluid px-4 pb-5">
-    <!-- Stats -->
-    <div class="row g-4 mb-4">
-        <div class="col-md-4 col-lg">
+<div class="container-fluid px-4 px-lg-5 pb-5">
+    <!-- Row 1: Main stats -->
+    <div class="row g-3 g-lg-4 mb-3">
+        <div class="col-6 col-lg-3" style="animation-delay:0.05s">
             <div class="stat-card total">
-                <div class="stat-icon"><i class="bi bi-folder2-open"></i></div>
-                <div class="stat-value" th:text="${totalDemandes}">0</div>
-                <div class="stat-label">Total demandes</div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-value" th:text="${totalDemandes}">0</div>
+                        <div class="stat-label">Total demandes</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-folder2-open"></i></div>
+                </div>
             </div>
         </div>
-        <div class="col-md-4 col-lg">
+        <div class="col-6 col-lg-3" style="animation-delay:0.1s">
             <div class="stat-card soumise">
-                <div class="stat-icon"><i class="bi bi-inbox"></i></div>
-                <div class="stat-value" th:text="${soumises}">0</div>
-                <div class="stat-label">Soumises</div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-value" th:text="${soumises}">0</div>
+                        <div class="stat-label">Soumises</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-inbox"></i></div>
+                </div>
             </div>
         </div>
-        <div class="col-md-4 col-lg">
+        <div class="col-6 col-lg-3" style="animation-delay:0.15s">
             <div class="stat-card en-cours">
-                <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
-                <div class="stat-value" th:text="${enCours}">0</div>
-                <div class="stat-label">En cours</div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-value" th:text="${enCours}">0</div>
+                        <div class="stat-label">En cours</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+                </div>
             </div>
         </div>
-        <div class="col-md-4 col-lg">
+        <div class="col-6 col-lg-3" style="animation-delay:0.2s">
             <div class="stat-card validee">
-                <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
-                <div class="stat-value" th:text="${validees}">0</div>
-                <div class="stat-label">Validées</div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-value" th:text="${validees}">0</div>
+                        <div class="stat-label">Valid&eacute;es</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
+                </div>
             </div>
         </div>
-        <div class="col-md-4 col-lg">
+    </div>
+    <!-- Row 2: Secondary stats -->
+    <div class="row g-3 g-lg-4 mb-4">
+        <div class="col-6 col-lg-3" style="animation-delay:0.25s">
             <div class="stat-card rejetee">
-                <div class="stat-icon"><i class="bi bi-x-circle"></i></div>
-                <div class="stat-value" th:text="${rejetees}">0</div>
-                <div class="stat-label">Rejetées</div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-value" th:text="${rejetees}">0</div>
+                        <div class="stat-label">Rejet&eacute;es</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-x-circle"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3" style="animation-delay:0.3s">
+            <div class="stat-card incomplete">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-value" th:text="${incompletes}">0</div>
+                        <div class="stat-label">Incompl&egrave;tes</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3" style="animation-delay:0.35s">
+            <div class="stat-card approuvee">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-value" th:text="${approuvees}">0</div>
+                        <div class="stat-label">Approuv&eacute;es</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-hand-thumbs-up"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-3" style="animation-delay:0.4s">
+            <div class="stat-card dossier">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-value" th:text="${totalDossiers}">0</div>
+                        <div class="stat-label">Dossiers</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-folder-fill"></i></div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Recent Demandes -->
-    <div class="card-modern">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span><i class="bi bi-clock-history me-2"></i>Dernières demandes</span>
+    <div class="card-modern" style="animation-delay:0.45s">
+        <div class="card-header d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
+            <div>
+                <i class="bi bi-clock-history me-2"></i><strong>Derni&egrave;res demandes</strong>
+                <span class="text-muted ms-2 fw-normal" style="font-size:0.82rem;" th:text="'(' + ${totalDemandes} + ' au total)'"></span>
+            </div>
             <a th:href="@{/demandes}" class="btn btn-sm btn-campus">
                 Voir tout <i class="bi bi-arrow-right ms-1"></i>
             </a>
         </div>
         <div class="card-body p-0">
-            <div th:if="${#lists.isEmpty(dernieresDemandes)}" class="text-center py-5 text-muted">
-                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                Aucune demande pour le moment
+            <div th:if="${#lists.isEmpty(dernieresDemandes)}" class="text-center py-5">
+                <div style="width:80px;height:80px;border-radius:50%;background:var(--slate-100);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+                    <i class="bi bi-inbox" style="font-size:2rem;color:var(--slate-400);"></i>
+                </div>
+                <h6 style="color:var(--slate-500);font-weight:700;">Aucune demande</h6>
+                <p style="color:var(--slate-400);font-size:0.85rem;">Les demandes soumises apparaitront ici</p>
             </div>
             <div th:unless="${#lists.isEmpty(dernieresDemandes)}" class="table-responsive">
                 <table class="table table-modern mb-0">
                     <thead>
                         <tr>
-                            <th>N° Demande</th>
+                            <th>N&deg; Demande</th>
                             <th>Demandeur</th>
-                            <th>Nationalité</th>
-                            <th>Type visa</th>
+                            <th class="d-none d-lg-table-cell">Nationalit&eacute;</th>
+                            <th class="d-none d-xl-table-cell">Type visa</th>
                             <th>Objectif</th>
-                            <th>Date</th>
+                            <th class="d-none d-md-table-cell">Date</th>
                             <th>Statut</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="d : ${dernieresDemandes}">
-                            <td class="fw-bold" th:text="${d.numeroDemande}"></td>
-                            <td th:text="${d.nom + ' ' + d.prenom}"></td>
-                            <td th:text="${d.nationalite}"></td>
-                            <td th:text="${d.typeVisa.libelle}"></td>
-                            <td th:text="${d.objectifDemande.libelle}"></td>
-                            <td th:text="${#temporals.format(d.dateCreation, 'dd/MM/yyyy')}"></td>
+                            <td>
+                                <span class="fw-bold" th:text="${d.numeroDemande}" style="font-size:0.82rem;"></span>
+                            </td>
+                            <td>
+                                <div class="fw-bold" th:text="${d.nom + ' ' + d.prenom}" style="font-size:0.88rem;"></div>
+                            </td>
+                            <td class="d-none d-lg-table-cell" th:text="${d.nationalite}"></td>
+                            <td class="d-none d-xl-table-cell" th:text="${d.typeVisa.libelle}"></td>
+                            <td><span class="badge bg-secondary" th:text="${d.objectifDemande.libelle}" style="font-size:0.7rem;"></span></td>
+                            <td class="d-none d-md-table-cell" style="font-size:0.85rem;color:var(--slate-500);" th:text="${#temporals.format(d.dateCreation, 'dd/MM/yyyy')}"></td>
                             <td>
                                 <span class="badge badge-statut" th:classappend="${d.statut.badgeClass}" th:text="${d.statut.libelle}"></span>
                             </td>
                             <td>
-                                <a th:href="@{/demandes/{id}(id=${d.id})}" class="btn btn-sm btn-outline-campus">
+                                <a th:href="@{/demandes/{id}(id=${d.id})}" class="btn btn-sm btn-outline-campus" style="padding:0.35rem 0.65rem;">
                                     <i class="bi bi-eye"></i>
                                 </a>
                             </td>

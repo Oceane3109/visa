@@ -1,6 +1,7 @@
 package mg.visa.service;
 
 import mg.visa.model.Demande;
+import mg.visa.model.Dossier;
 import mg.visa.model.StatutDemande;
 import mg.visa.repository.DemandeRepository;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,24 @@ import java.util.Optional;
 public class DemandeService {
 
     private final DemandeRepository demandeRepository;
+    private final DossierService dossierService;
 
-    public DemandeService(DemandeRepository demandeRepository) {
+    public DemandeService(DemandeRepository demandeRepository, DossierService dossierService) {
         this.demandeRepository = demandeRepository;
+        this.dossierService = dossierService;
     }
 
     public Demande soumettreDemande(Demande demande) {
         demande.setNumeroDemande(genererNumeroDemande());
-        demande.setStatut(StatutDemande.SOUMISE);
+
+        if (dossierService.isDuplicataOuTransfert(demande.getObjectifDemande())) {
+            Dossier dossier = dossierService.trouverOuCreerDossier(demande);
+            demande.setDossier(dossier);
+            demande.setStatut(StatutDemande.APPROUVEE);
+        } else {
+            demande.setStatut(StatutDemande.SOUMISE);
+        }
+
         return demandeRepository.save(demande);
     }
 
