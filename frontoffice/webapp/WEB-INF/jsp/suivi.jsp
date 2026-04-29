@@ -27,7 +27,7 @@
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/"><i class="bi bi-house-door me-1"></i> Accueil</a></li>
                 <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/nouvelle-demande"><i class="bi bi-plus-circle me-1"></i> Nouvelle demande</a></li>
                 <li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/suivi"><i class="bi bi-search me-1"></i> Suivi</a></li>
-                <li class="nav-item ms-lg-3"><a class="nav-link" href="/visa-back2/"><span class="badge-env">Administration</span></a></li>
+                <li class="nav-item ms-lg-3"><a class="nav-link" href="/visa-back3/"><span class="badge-env">Administration</span></a></li>
             </ul>
         </div>
     </div>

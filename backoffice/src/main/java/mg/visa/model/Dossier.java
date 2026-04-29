@@ -26,8 +26,13 @@ public class Dossier {
 
     private String nationalite;
 
+    private boolean scanTermine;
+
     @OneToMany(mappedBy = "dossier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Demande> demandes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "dossier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PieceJustificative> piecesJustificatives = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {
@@ -56,6 +61,12 @@ public class Dossier {
     public String getNationalite() { return nationalite; }
     public void setNationalite(String nationalite) { this.nationalite = nationalite; }
 
+    public boolean isScanTermine() { return scanTermine; }
+    public void setScanTermine(boolean scanTermine) { this.scanTermine = scanTermine; }
+
     public List<Demande> getDemandes() { return demandes; }
     public void setDemandes(List<Demande> demandes) { this.demandes = demandes; }
+
+    public List<PieceJustificative> getPiecesJustificatives() { return piecesJustificatives; }
+    public void setPiecesJustificatives(List<PieceJustificative> piecesJustificatives) { this.piecesJustificatives = piecesJustificatives; }
 }
