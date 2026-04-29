@@ -75,7 +75,7 @@
     </dependencies>
 
     <build>
-        <finalName>visa-front2</finalName>
+        <finalName>visa-front3</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

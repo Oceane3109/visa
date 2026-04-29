@@ -63,6 +63,16 @@ public class DossierService {
         return dossierRepository.count();
     }
 
+    public void terminerScan(Long dossierId) {
+        Optional<Dossier> dossierOpt = dossierRepository.findById(dossierId);
+        if (dossierOpt.isEmpty()) {
+            throw new IllegalArgumentException("Dossier introuvable");
+        }
+        Dossier dossier = dossierOpt.get();
+        dossier.setScanTermine(true);
+        dossierRepository.save(dossier);
+    }
+
     private String genererNumeroDossier() {
         String prefix = "DOS-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
         long count = dossierRepository.count() + 1;

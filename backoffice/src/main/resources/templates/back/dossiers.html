@@ -39,6 +39,7 @@
                             <th>Types</th>
                             <th class="d-none d-md-table-cell">Date</th>
                             <th>Demandes</th>
+                            <th>Scan</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -59,6 +60,10 @@
                             <td class="d-none d-md-table-cell" style="font-size:0.82rem;color:var(--slate-500);" th:text="${#temporals.format(dos.dateCreation, 'dd/MM/yyyy HH:mm')}"></td>
                             <td class="text-center">
                                 <span class="badge bg-secondary" th:text="${dos.demandes.size()}" style="font-size:0.75rem;min-width:28px;"></span>
+                            </td>
+                            <td class="text-center">
+                                <span th:if="${dos.scanTermine}" class="badge bg-success" style="font-size:0.68rem;"><i class="bi bi-lock-fill me-1"></i>Termin&eacute;</span>
+                                <span th:unless="${dos.scanTermine}" class="badge bg-warning" style="font-size:0.68rem;"><i class="bi bi-unlock-fill me-1"></i>En cours</span>
                             </td>
                             <td>
                                 <a th:href="@{/dossiers/{id}(id=${dos.id})}" class="btn btn-sm btn-outline-campus" style="padding:0.35rem 0.65rem;">

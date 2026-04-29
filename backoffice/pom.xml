@@ -52,7 +52,7 @@
     </dependencies>
 
     <build>
-        <finalName>visa-back2</finalName>
+        <finalName>visa-back3</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
