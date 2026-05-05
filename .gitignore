@@ -9,3 +9,6 @@ target/
 .project
 .classpath
 .DS_Store
+uploads/
+frontend/node_modules/
+frontend/build/
