@@ -70,6 +70,10 @@ public class DemandeService {
         return demandeRepository.save(demande);
     }
 
+    public List<Demande> listerParPasseport(String passeportNumero) {
+        return demandeRepository.findByPasseportNumeroOrderByDateCreationDesc(passeportNumero);
+    }
+
     public long compterParStatut(StatutDemande statut) {
         return demandeRepository.countByStatut(statut);
     }

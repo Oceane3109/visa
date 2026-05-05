@@ -14,4 +14,5 @@ public interface DemandeRepository extends JpaRepository<Demande, Long> {
     List<Demande> findByStatut(StatutDemande statut);
     List<Demande> findAllByOrderByDateCreationDesc();
     long countByStatut(StatutDemande statut);
+    List<Demande> findByPasseportNumeroOrderByDateCreationDesc(String passeportNumero);
 }
